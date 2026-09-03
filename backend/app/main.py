@@ -5,12 +5,14 @@ compliance verdicts for previously-unmapped constructs require human confirmatio
 """
 import io
 import json
+import os
 from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.models import AuditReport, Finding, NormalizedConfig, UnmappedStatus
 from app.parsers.base_parser import detect_vendor
@@ -215,3 +217,22 @@ async def audit_pdf(file: UploadFile, use_ai: bool = True) -> StreamingResponse:
     fname = Path(report.source_file).stem or "audit"
     headers = {"Content-Disposition": f'attachment; filename="{fname}_compliance_report.pdf"'}
     return StreamingResponse(io.BytesIO(pdf_bytes), media_type="application/pdf", headers=headers)
+
+
+# ─── Production: serve the built frontend (single-service deploy) ───
+FRONTEND_DIST = Path(__file__).parent.parent.parent / "frontend" / "dist"
+
+if FRONTEND_DIST.exists():
+    app.mount("/assets", StaticFiles(directory=FRONTEND_DIST / "assets"), name="assets")
+
+    @app.get("/", include_in_schema=False)
+    async def serve_index() -> FileResponse:
+        return FileResponse(FRONTEND_DIST / "index.html")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa(full_path: str) -> FileResponse:
+        """Serve index.html for any non-API path (SPA fallback)."""
+        f = FRONTEND_DIST / full_path
+        if f.is_file():
+            return FileResponse(f)
+        return FileResponse(FRONTEND_DIST / "index.html")

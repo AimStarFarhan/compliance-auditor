@@ -1,4 +1,4 @@
-const API = '/api'
+const API = import.meta.env.VITE_API_URL || ''
 
 export async function runAudit(file, useAi = true) {
   const fd = new FormData()
