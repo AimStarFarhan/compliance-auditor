@@ -1,0 +1,22 @@
+services:
+  # ─── Backend: FastAPI ───
+  - type: web
+    name: compliance-auditor-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+
+  # ─── Frontend: static React build ───
+  - type: web
+    name: compliance-auditor
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
