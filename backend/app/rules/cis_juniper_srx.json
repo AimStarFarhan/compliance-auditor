@@ -1,0 +1,56 @@
+{
+  "_note": "Small Juniper SRX rule subset mapping to the same NormalizedConfig fields. Depth over breadth — proves schema generalizes.",
+  "rules": [
+    {
+      "rule_id": "JSRX-1.1",
+      "cis_section": "Ensure SSH is configured for device management (no Telnet)",
+      "check_type": "field_absent",
+      "target_field": "line_vty_settings.transport_input",
+      "expected_value": "telnet",
+      "severity": "high",
+      "remediation_cli": "delete system services telnet; set system services ssh"
+    },
+    {
+      "rule_id": "JSRX-1.2",
+      "cis_section": "Ensure SSH idle-timeout is configured (10 minutes or less)",
+      "check_type": "numeric_max",
+      "target_field": "line_vty_settings.exec_timeout_minutes",
+      "expected_value": "10",
+      "severity": "medium",
+      "remediation_cli": "set system services ssh idle-timeout 10"
+    },
+    {
+      "rule_id": "JSRX-2.1",
+      "cis_section": "Ensure J-Web / HTTP management is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "http",
+      "severity": "high",
+      "remediation_cli": "delete system services web-management"
+    },
+    {
+      "rule_id": "JSRX-3.1",
+      "cis_section": "Ensure centralized syslog host is configured",
+      "check_type": "field_not_empty",
+      "target_field": "logging_settings.hosts",
+      "severity": "medium",
+      "remediation_cli": "set system syslog host <server> any any"
+    },
+    {
+      "rule_id": "JSRX-3.2",
+      "cis_section": "Ensure NTP is configured for time synchronization",
+      "check_type": "field_not_empty",
+      "target_field": "ntp_settings.servers",
+      "severity": "low",
+      "remediation_cli": "set system ntp server <server>"
+    },
+    {
+      "rule_id": "JSRX-4.1",
+      "cis_section": "Ensure security policy deny actions log to SIEM",
+      "check_type": "deny_log_check",
+      "target_field": "service_settings",
+      "severity": "medium",
+      "remediation_cli": "set security policies ... then deny log"
+    }
+  ]
+}

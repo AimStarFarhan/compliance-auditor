@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  /* Rivr-style warm palette */
+  --color-canvas: #F0F0EA;            /* hsl(0 0% 94%) page background */
+  --color-ink: #1F3A5F;              /* hsl(218 48% 24%) deep navy foreground */
+  --color-ink-soft: #5C6B84;         /* muted foreground */
+  --color-ink-faint: #8A94A6;
+  --color-line: #DEDFE8;            /* border hsl(214 24% 88%) */
+  --color-veil: #EBEFF5;            /* secondary/accent hsl(212 26% 93%) */
+  --color-veil-deep: #E4E9F1;       /* accent hsl(212 32% 91%) */
+
+  --font-display: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+}
+
+html, body {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  background: #F0F0EA;
+  color: #1F3A5F;
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Rivr-style elevated card hover */
+.card-hover {
+  transition: box-shadow .3s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 8px 30px rgb(31 58 95 / 0.07);
+}
+
+/* watermark icon in card corner (Rivr signature) */
+.watermark {
+  position: absolute;
+  bottom: -2.5rem;
+  right: -1.5rem;
+  color: #1F3A5F;
+  opacity: 0.04;
+  transition: transform .5s ease;
+  pointer-events: none;
+}
+.group:hover .watermark {
+  transform: scale(1.1);
+}
+
+/* rounded section shell */
+.shell {
+  border-radius: 3rem;
+  border: 1px solid rgb(31 58 95 / 0.05);
+  background: rgb(31 58 95 / 0.02);
+}
+
+/* pill nav button (Rivr "Book Demo" style) */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 9999px;
+  padding: 0.375rem 0.375rem 0.375rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all .2s ease;
+  white-space: nowrap;
+}
+.pill-btn .pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+}
+.pill-btn-dark {
+  background: #1F3A5F;
+  color: #fff;
+}
+.pill-btn-dark:hover { background: #2A4A73; }
+.pill-btn-dark .pill-icon { background: rgb(255 255 255 / 0.2); }
+
+.pill-btn-white {
+  background: #fff;
+  color: #1F3A5F;
+}
+.pill-btn-white:hover { background: #f6f6f2; }
+.pill-btn-white .pill-icon { background: rgb(31 58 95 / 0.1); }
+
+.pill-btn-outline {
+  border: 1px solid #DEDFE8;
+  background: #fff;
+  color: #1F3A5F;
+  backdrop-filter: blur(4px);
+}
+.pill-btn-outline:hover { background: #E4E9F1; }
+.pill-btn-outline .pill-icon { background: rgb(31 58 95 / 0.1); }

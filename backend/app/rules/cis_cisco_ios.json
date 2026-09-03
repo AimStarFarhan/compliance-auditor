@@ -1,0 +1,219 @@
+{
+  "_note": "CIS Cisco IOS Benchmark-inspired rules. Section numbers are grouped logically for this prototype; citation_confidence=verify means wording must be checked against the exact CIS Cisco IOS 15 Benchmark PDF version before submission.",
+  "rules": [
+    {
+      "rule_id": "CIS-1.1",
+      "cis_section": "1.1 Ensure 'aaa new-model' is enabled",
+      "check_type": "field_equals",
+      "target_field": "auth_settings.aaa_new_model",
+      "expected_value": "true",
+      "severity": "high",
+      "remediation_cli": "aaa new-model",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-1.2",
+      "cis_section": "1.2 Ensure 'service password-encryption' is set",
+      "check_type": "field_equals",
+      "target_field": "auth_settings.password_encryption",
+      "expected_value": "true",
+      "severity": "high",
+      "remediation_cli": "service password-encryption",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-1.3",
+      "cis_section": "1.3 Ensure 'enable secret' is used to set the privileged-mode password (not 'enable password')",
+      "check_type": "field_not_empty",
+      "target_field": "auth_settings.enable_password_hash",
+      "severity": "high",
+      "remediation_cli": "enable secret <strong-password>",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-1.4",
+      "cis_section": "1.4 Ensure 'aaa authentication login' is configured for local or server-based authentication",
+      "check_type": "field_not_empty",
+      "target_field": "auth_settings.aaa_authentication",
+      "severity": "medium",
+      "remediation_cli": "aaa authentication login default local",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-2.1",
+      "cis_section": "2.1 Ensure 'ip http server' is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "http",
+      "severity": "high",
+      "remediation_cli": "no ip http server",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-2.2",
+      "cis_section": "2.2 Ensure 'ip https server' is disabled unless required for HTTPS management",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "https",
+      "severity": "medium",
+      "remediation_cli": "no ip https server",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-2.3",
+      "cis_section": "2.3 Ensure 'ip finger' service is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "finger",
+      "severity": "medium",
+      "remediation_cli": "no ip finger",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-2.4",
+      "cis_section": "2.4 Ensure 'ip bootp server' is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "bootp",
+      "severity": "medium",
+      "remediation_cli": "no ip bootp server",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-2.5",
+      "cis_section": "2.5 Ensure 'service tcp-small-servers' is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "tcp-small-servers",
+      "severity": "low",
+      "remediation_cli": "no service tcp-small-servers",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-2.6",
+      "cis_section": "2.6 Ensure 'service udp-small-servers' is disabled",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "udp-small-servers",
+      "severity": "low",
+      "remediation_cli": "no service udp-small-servers",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-2.7",
+      "cis_section": "2.7 Ensure IP source routing is disabled ('no ip source-route')",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "source-route",
+      "severity": "medium",
+      "remediation_cli": "no ip source-route",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-2.8",
+      "cis_section": "2.8 Ensure Cisco Discovery Protocol (CDP) is disabled on interfaces where it is not required",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "cdp",
+      "severity": "low",
+      "remediation_cli": "no cdp run",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-2.9",
+      "cis_section": "2.9 Ensure 'ip domain-lookup' is disabled on infrastructure devices (prevents DNS reconnaissance)",
+      "check_type": "field_absent",
+      "target_field": "enabled_protocols",
+      "expected_value": "domain-lookup",
+      "severity": "low",
+      "remediation_cli": "no ip domain-lookup",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-3.1",
+      "cis_section": "3.1 Ensure 'transport input ssh' is configured on VTY lines (SSH-only administrative access)",
+      "check_type": "field_contains",
+      "target_field": "line_vty_settings.transport_input",
+      "expected_value": "ssh",
+      "severity": "high",
+      "remediation_cli": "transport input ssh",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-3.2",
+      "cis_section": "3.2 Ensure Telnet is not used for administrative access on VTY lines",
+      "check_type": "field_absent",
+      "target_field": "line_vty_settings.transport_input",
+      "expected_value": "telnet",
+      "severity": "high",
+      "remediation_cli": "transport input ssh",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-3.3",
+      "cis_section": "3.3 Ensure 'exec-timeout' is set to 10 minutes or less on VTY lines",
+      "check_type": "numeric_max",
+      "target_field": "line_vty_settings.exec_timeout_minutes",
+      "expected_value": "10",
+      "severity": "medium",
+      "remediation_cli": "exec-timeout 10 0",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-3.4",
+      "cis_section": "3.4 Ensure an 'access-class' is applied to VTY lines (management ACL)",
+      "check_type": "field_not_empty",
+      "target_field": "line_vty_settings.access_class",
+      "severity": "medium",
+      "remediation_cli": "access-class <mgmt-acl> in",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-4.1",
+      "cis_section": "4.1 Ensure ACL 'deny' entries are configured with the 'log' option (audit of dropped traffic)",
+      "check_type": "all_deny_acl_entries_have_log",
+      "target_field": "acl_rules",
+      "severity": "medium",
+      "remediation_cli": "deny ... log",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-5.1",
+      "cis_section": "5.1 Ensure 'logging host' is configured for centralized logging",
+      "check_type": "field_not_empty",
+      "target_field": "logging_settings.hosts",
+      "severity": "medium",
+      "remediation_cli": "logging host <syslog-server-ip>",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-5.2",
+      "cis_section": "5.2 Ensure the Message of the Day (MOTD) login banner is configured",
+      "check_type": "field_equals",
+      "target_field": "banner_settings.present",
+      "expected_value": "true",
+      "severity": "low",
+      "remediation_cli": "banner motd ^C<authorized-use notice>^C",
+      "citation_confidence": "high"
+    },
+    {
+      "rule_id": "CIS-5.3",
+      "cis_section": "5.3 Ensure NTP is configured to maintain accurate time (required for reliable logs)",
+      "check_type": "field_not_empty",
+      "target_field": "ntp_settings.servers",
+      "severity": "low",
+      "remediation_cli": "ntp server <ntp-server-ip>",
+      "citation_confidence": "verify"
+    },
+    {
+      "rule_id": "CIS-5.4",
+      "cis_section": "5.4 Ensure SNMP community strings are changed from defaults ('public' / 'private')",
+      "check_type": "field_not_contains",
+      "target_field": "snmp_settings.communities.community",
+      "expected_value": "public|private",
+      "severity": "high",
+      "remediation_cli": "snmp-server community <strong-string> RO",
+      "citation_confidence": "high"
+    }
+  ]
+}

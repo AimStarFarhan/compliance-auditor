@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Rule cache is per-machine learning state — don't share
+backend/app/rule_cache.db
+
+# Node
+node_modules/
+frontend/dist/
+
+# Env & OS
+.env
+.DS_Store
+Thumbs.db
+
+# Vite
+frontend/.oxlintrc.json
+
+# Logs
+*.log
