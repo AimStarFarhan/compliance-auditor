@@ -34,6 +34,16 @@ app.add_middleware(
 PARSERS = [CiscoIOSParser(), JuniperSRXParser()]
 
 
+@app.get("/")
+def root() -> dict:
+    return {
+        "message": "Compliance Auditor API",
+        "docs": "/docs",
+        "health": "/api/health",
+        "note": "This is the backend. The web app is served at the frontend URL.",
+    }
+
+
 @app.get("/api/health")
 def health() -> dict:
     return {"status": "ok"}
